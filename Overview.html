@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+
+/******************************************
+* Metric Modal Chart (Views, Downloads, Citations)
+********************************************/
+
+/* When there is no data ...*/
+
+#metric-modal .metric-chart text {
+    fill: #565656;
+    font-size: 9px;
+    font-family: Helvetica, Arial, "sans serif";
+}
+
+#metric-modal .metric-chart text.no-data {
+    font-size: 16px;
+    font-weight: 100;
+    fill:#d0d0d0;
+}
+
+#metric-modal .metric-chart rect.no-data {
+    fill: #f5f5f5;
+}
+
+/* When there is data ...*/
+
+/* CB: padding to display better on bl.ocks.org */
+#metric-modal {
+    width: 750px;
+    padding: 60px;
+}
+
+#metric-modal .metric-chart rect.plot-background{
+    fill: white;
+}
+
+#metric-modal .metric-chart path.line {
+    fill: none;
+    stroke: #FA8072; /* default, changed in each theme */
+    stroke-width: 1.5px;
+    clip-path: url(#clip);
+}
+
+#metric-modal .metric-chart path.area {
+    fill: #FA8072; /* CB default, changed in each theme */
+    opacity: 0.6;
+    clip-path: url(#clip);
+}
+
+#metric-modal .metric-chart .axis {
+    shape-rendering: crispEdges;
+}
+
+#metric-modal .metric-chart .x.axis .domain{
+    display:none;
+}
+
+#metric-modal .metric-chart .x.axis line {
+    stroke: white;
+    opacity: 0.4;
+}
+
+#metric-modal .metric-chart .context .x.axis line {
+    display: none;
+}
+
+#metric-modal .metric-chart .y.axis .domain{
+    display: none;
+}
+
+#metric-modal .metric-chart .y.axis.title{
+    font-size: 9px;
+    font-weight: 100;
+}
+
+#metric-modal .metric-chart .y.axis line {
+    stroke: #565656;
+    stroke-dasharray: 2,2;
+    stroke-opacity: 0.3;
+}
+
+#metric-modal .metric-chart .brush .extent {
+  fill-opacity: .07;
+  shape-rendering: crispEdges;
+  clip-path: url(#clip);
+}
+
+#metric-modal .metric-chart rect.pane {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+}
+/* brush handles  */
+#metric-modal .metric-chart .resize .handle {
+    fill: #555;
+}
+
+#metric-modal .metric-chart .resize .handle-mini {
+    fill: white;
+    stroke-width: 1px;
+    stroke: #555;
+}
+
+#metric-modal .metric-chart .scale_button {
+    cursor: pointer;
+}
+
+#metric-modal .metric-chart .scale_button rect {
+    fill: #eaeaea;
+}
+#metric-modal .metric-chart .scale_button:hover text {
+    fill: #417DD6;
+    transition: all 0.1s cubic-bezier(.25,.8,.25,1);
+}
+
+#metric-modal .metric-chart text#displayDates  {
+    font-weight: bold;
+}
+#topicSelect{
+    size: 1000px;
+    background-color: blanchedalmond; height: 40px;
+    color: black;
+    font-size: 20px
+}
+*{
+      font-family: "Helvetica Neue";
+}
+p, text{
+  font-size: 0.85em;
+}
+</style>
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>  -->
+<body onload="createVisualization('Drug'); $('#imageToSwap').attr('src', './images/Drug.png');">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<!-- line chart -->
+<script src="d3v4.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="integrated.js"></script>
+<!-- <script src="./charts/linechart.js"></script> -->
+
+
+<!-- For line chart and word cloud -->
+<div id = "variable_charts" size = "20" style= "text-align: center;">  
+  <select size="1" title="" type="select" name="style" id = "topicSelect" onchange="createVisualization(document.getElementById('topicSelect').options[document.getElementById('topicSelect').selectedIndex].value);">
+        <option value ="Select Option" selected> Select </option>
+        <option value="Drug" >Drug</option>
+        <option value="Baby">Baby</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Period">Period</option>
+        <option value="Pregnancy">Pregnancy</option>
+        <option value="Sexual Intercourse">Sexual Intercourse</option>
+        <option value="Tooth" >Tooth</option>
+        <option value="Skin">Skin</option>
+    </select>
+    
+    <div>
+        <div style="display: flex;">
+            <!-- line chart area -->
+            <div id="metric-modal"></div>
+
+            <!-- Word cloud area -->
+            <div>
+                <img id="imageToSwap" class="profile" src="./images/drugs.png" style = "height: 500px; width: 500px;">
+            </div>
+        </div>
+
+        <!-- For chord diagram -->
+        <div id="chord" style="text-align: center;">
+            <h3>TOPIC SIMILARITY</h3>
+        </div>
+        <script src="./charts/chord.js"></script> 
+
+        <!-- bubble charts -->
+        <div style="width:100%; height:100%; text-align: center;">
+            <h3> MEMBER CONTRIBUTION (PINK REFERS TO THE CONTRIBUTORS AND GREEN REFERS TO THE EXPERTS)</h3>
+          <button id="decade">Split</button>
+          <button id="combine">Combine</button>
+        </div>
+        <div id="chart"></div>
+
+        <script src="./charts/bub.js"></script> 
+
+    </div>
+        
+</div>
+
+    
+</body>
